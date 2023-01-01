@@ -2,8 +2,6 @@ from flask import Flask, request, Response, jsonify, abort, send_from_directory
 import tensorflow as tf
 import cv2
 import os
-import numpy as np
-from keras.utils import img_to_array
 
 app = Flask(__name__)
 model = tf.keras.models.load_model("models/FV.h5")
