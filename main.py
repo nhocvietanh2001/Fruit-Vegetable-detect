@@ -1,10 +1,13 @@
-from flask import Flask, request, Response, jsonify, abort, send_from_directory
+from flask import Flask, request, jsonify, abort
+from flask_cors import CORS
 import tensorflow as tf
 import cv2
 import os
 import requests
 
 app = Flask(__name__)
+app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app)
 model = tf.keras.models.load_model("models/FV.h5")
 
 labels = {0: 'apple', 1: 'banana', 2: 'beetroot', 3: 'bell pepper', 4: 'cabbage', 5: 'capsicum', 6: 'carrot',
@@ -68,7 +71,7 @@ def image_search():
     res = labelsVietnamese[y]
     os.remove(image_name)
 
-    if float(prediction[0][y]) < 0.8:
+    if float(prediction[0][y]) < 0.6:
         responses = [{"message": "No fruit detected!", "success": "false"}]
         return jsonify(responses), 200
 
